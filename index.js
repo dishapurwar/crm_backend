@@ -178,7 +178,7 @@ app.get("/profile", async (req, res) => {
 
 
 let channel = null;
-amqp.connect('amqp://guest:guest@127.0.0.1:5672', (err, connection) => {
+amqp.connect('amqp://guest:guest@localhost:5672', (err, connection) => {
   if (err) {
     throw err;
   }
