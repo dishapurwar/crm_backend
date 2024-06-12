@@ -180,11 +180,15 @@ app.get("/profile", async (req, res) => {
 let channel = null;
 amqp.connect('amqp://guest:guest@localhost:5672', (err, connection) => {
   if (err) {
-    throw err;
+    // throw err;
+    console.error('Error connecting to RabbitMQ:', err);
+    return; // Do not throw, just return and continue
   }
   connection.createChannel((err, ch) => {
     if (err) {
-      throw err;
+      // throw err;
+      console.error('Error creating RabbitMQ channel:', err);
+      return; // Do not throw, just return and continue
     }
     channel = ch;
     channel.assertQueue('customerQueue', { durable: false });
@@ -492,4 +496,12 @@ const verifyToken = (req, res, next) => {
 // app.listen(4000);
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server is running");
+});
+
+app.listen(5672, () => {
+  console.log("rabbitmq is running on port 5672");
+});
+
+app.listen(15672, () => {
+  console.log("rabbitmq management is running on port 15672");
 });
